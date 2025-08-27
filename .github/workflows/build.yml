@@ -1,0 +1,17 @@
+name: Build RPMs on push
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  job1:
+    uses: anm1n/yum2/.github/workflows/rpmbuild.yml
+    with:
+      pkg-path: packages
+      rclone-repo-name: test
+      metadata-workflow-name: metadata.yml
+    secrets:
+      RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
+      GPG_SECRET: ${{ secrets.GPG_SECRET }}
+      GPG_SECRET_ID: ${{ secrets.GPG_SECRET_ID }}
+      GITHUB_TOKEN: ${{ secrets.PAT }}
