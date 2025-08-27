@@ -14,4 +14,4 @@ jobs:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
       GPG_SECRET_ID: ${{ secrets.GPG_SECRET_ID }}
-      GITHUB_TOKEN: ${{ secrets.PAT }}
+      TOKEN: ${{ secrets.PAT }}
