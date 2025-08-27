@@ -5,7 +5,7 @@ on:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/rpmbuild.yml
+    uses: anm1n/yum2/.github/workflows/rpmbuild.yml@main
     with:
       pkg-path: packages
       rclone-repo-name: test

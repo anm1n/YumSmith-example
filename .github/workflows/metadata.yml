@@ -4,7 +4,7 @@ on:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/update-metadata.yml
+    uses: anm1n/yum2/.github/workflows/update-metadata.yml@main
     with:
       rclone-repo-name: test
     secrets:
