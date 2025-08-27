@@ -15,3 +15,6 @@ jobs:
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
       GPG_SECRET_ID: ${{ secrets.GPG_SECRET_ID }}
       TOKEN: ${{ secrets.PAT }}
+    permissions:
+      actions: write # so we can dispatch sub workflow
+      contents: read
