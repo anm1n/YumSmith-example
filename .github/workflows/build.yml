@@ -7,7 +7,7 @@ jobs:
   job1:
     uses: anm1n/yum2/.github/workflows/rpmbuild.yml@main
     with:
-      pkg-path: packages
+      pkg-path: projects
       rclone-repo-name: test
       metadata-workflow-name: metadata.yml
       matrix-file: matrix.yml
