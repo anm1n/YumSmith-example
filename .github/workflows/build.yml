@@ -10,6 +10,7 @@ jobs:
       pkg-path: packages
       rclone-repo-name: test
       metadata-workflow-name: metadata.yml
+      matrix-file: matrix.yml
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}

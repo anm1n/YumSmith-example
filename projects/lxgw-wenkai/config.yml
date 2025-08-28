@@ -1,0 +1,31 @@
+package: lxgw-wenkai
+url: https://github.com/gohugoio/hugo
+version:
+  strategy: tag # tag | release | manual | custom
+  current: "0.5"
+
+source:
+  - name: source.tar.gz
+    type: source
+    url: https://github.com/gohugoio/hugo/archive/refs/tags/v0.148.2.tar.gz
+    sha256sum: 562024495bb23ee54d11bbb63d15156213d40b24c5f5276bc8851dc6135b8602
+
+# matrix:
+#   - distro: opensuse
+#     branch: leap-16.0
+#     image: opensuse/tumbleweed
+#     tag: latest
+
+hooks:
+  universal:
+    pre:
+      - uni_pre.sh
+    post:
+      - uni_post.sh
+  spcefic:
+    - distro: opensuse
+      branch: tumbeweed
+      pre:
+        - suse_pre.sh
+      post:
+        - suse_post.sh
