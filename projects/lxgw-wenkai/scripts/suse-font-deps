@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+set -e
+zypper --non-interactive in fontpackages-devel

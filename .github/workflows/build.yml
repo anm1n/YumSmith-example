@@ -11,6 +11,9 @@ jobs:
       rclone-repo-name: test
       metadata-workflow-name: metadata.yml
       matrix-file: matrix.yml
+      hostname: Build-Test
+      build-srpm: true
+      hooks-dir: hooks
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}

@@ -1,0 +1,73 @@
+#!/bin/bash
+set -euo pipefail
+
+# Install build dependency based on SPEC file
+# NOTE Requires all macros in the SPEC file to be parsable
+
+usage() {
+    echo "📖 Usage: $0 -s <SPEC file path>"
+    exit 1
+}
+
+# 🔍 Check if dnf exists
+if ! command -v dnf >/dev/null 2>&1; then
+    echo "❌ Error: 'dnf' command not found. Please install dnf first."
+    exit 2
+fi
+
+SPEC_FILE=""
+
+# ⚙️ Parse command-line options
+while getopts ":s:" opt; do
+    case "$opt" in
+        s)
+            SPEC_FILE="$OPTARG"
+            ;;
+        \?)
+            echo "❌ Error: Invalid option -$OPTARG"
+            usage
+            ;;
+        :)
+            echo "❌ Error: Option -$OPTARG requires an argument"
+            usage
+            ;;
+    esac
+done
+
+# 📝 Check if -s was provided
+if [[ -z "$SPEC_FILE" ]]; then
+    echo "❌ Error: You must specify a SPEC file with -s"
+    usage
+fi
+
+# 📂 Check if the SPEC file exists
+if [[ ! -f "$SPEC_FILE" ]]; then
+    echo "❌ Error: SPEC file not found: $SPEC_FILE"
+    exit 3
+fi
+
+# Query build deps
+BUILD_DEPS=$(rpmspec -q --buildrequires "$SPEC_FILE" | sort -u | grep -v '^\s*$')
+
+if [[ -z "$BUILD_DEPS" ]]; then
+    echo "✅ No build dependency is required"
+    exit 0
+fi
+
+
+echo "⚙️ $SPEC_FILE requires the following build dependencies"
+echo "$BUILD_DEPS"
+echo
+
+if command -v dnf >/dev/null 2>&1; then
+    echo "⚙️ Using dnf..."
+    dnf install -y $BUILD_DEPS
+elif command -v zypper >/dev/null 2>&1; then
+    echo "⚙️ Using zypper..."
+    zypper --non-interactive install $BUILD_DEPS
+else
+    echo "❌ Error: Neither dnf or zypper is present in PATH"
+    exit 1
+fi
+
+echo "✅ Build dependencies for $SPEC_FILE installed successfully!"

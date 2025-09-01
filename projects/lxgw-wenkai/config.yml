@@ -1,31 +1,18 @@
 package: lxgw-wenkai
-url: https://github.com/gohugoio/hugo
+url: https://lxgw.github.io
 version:
   strategy: tag # tag | release | manual | custom
-  current: "0.5"
+  current: "1.520"
 
 source:
-  - name: source.tar.gz
+  - name: font.tar.gz
     type: source
-    url: https://github.com/gohugoio/hugo/archive/refs/tags/v0.148.2.tar.gz
-    sha256sum: 562024495bb23ee54d11bbb63d15156213d40b24c5f5276bc8851dc6135b8602
-
-# matrix:
-#   - distro: opensuse
-#     branch: leap-16.0
-#     image: opensuse/tumbleweed
-#     tag: latest
+    url: https://github.com/lxgw/LxgwWenKai/releases/download/v%{version}/lxgw-wenkai-v1.520.tar.gz
+    sha256sum: f069bccc54392186ae48f676ecc73964b71f28ef740b6e75231a90946fe396b1
 
 hooks:
-  universal:
-    pre:
-      - uni_pre.sh
-    post:
-      - uni_post.sh
-  spcefic:
+  specific:
     - distro: opensuse
-      branch: tumbeweed
-      pre:
-        - suse_pre.sh
-      post:
-        - suse_post.sh
+      branch: tumbleweed
+      post_global_prebuild:
+        - suse-font-deps

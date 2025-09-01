@@ -1,21 +1,18 @@
 Name:           hugo
 Version:        0.148.2
-Release:        3
+Release:        1
 Summary:        The world’s fastest framework for building websites.
 License:        Apache-2.0
 Vendor:         Test-Only
 URL:            https://gohugo.io
-Source0:        https://github.com/gohugoio/hugo/archive/refs/tags/v%{version}.tar.gz
-BuildArch:      x86_64
+Source0:        source.tar.gz
 BuildRequires:  go
-%global         SHA256SUM0 562024495bb23ee54d11bbb63d15156213d40b24c5f5276bc8851dc6135b8602
 
 %description
 Hugo is one of the most popular open-source static site generators.
 With its amazing speed and flexibility, Hugo makes building websites fun again.
 
 %prep
-echo "%{SHA256SUM0}  %{SOURCE0}" | sha256sum -c -
 %setup -q
 
 %build

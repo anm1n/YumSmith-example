@@ -1,0 +1,103 @@
+#!/bin/bash
+set -euo pipefail
+
+# set basic build dependency
+# NOTE Also install dnf on SUSE to make dependency handling more uniform
+
+
+if [[ -f /etc/os-release ]]; then
+    . /etc/os-release
+fi
+
+os_is_suse=false
+
+if [[ "${ID:-}" == opensuse* ]] || [[ "${ID_LIKE:-}" == *suse* ]]; then
+    os_is_suse=true
+fi
+
+if [[ "$os_is_suse" == true ]]; then
+    echo ">>> The environment is identified as SUSE: $PRETTY_NAME"
+    zypper --non-interactive refresh
+    zypper --non-interactive install -t pattern \
+        devel_basis \
+        devel_C_C++ \
+        devel_rpm_build
+
+    # see also: https://en.opensuse.org/SDB:DNF
+    echo ">>> Setup dnf for $PRETTY_NAME"
+    zypper --non-interactive install dnf
+    if [[ "$ID" == "opensuse-tumbleweed" ]]; then
+        zypper --non-interactive install rpm-repos-openSUSE-Tumbleweed
+    elif [[ "$ID" == "opensuse-leap" ]]; then
+        zypper --non-interactive install rpm-repos-openSUSE-Leap
+    else
+        echo ">>> warn: Failed to set up dnf repository for $ID"
+    fi
+
+else
+    if command -v dnf >/dev/null 2>&1; then
+        echo ">>> The environment is not recognized as SUSE. Use dnf to setup the environment"
+
+        common_build_pkgs=(
+            rpm-build
+            rpmdevtools
+            make
+            gmake
+            gcc
+            gcc-c++
+            g++
+            automake
+            autoconf
+            libtool
+            patch
+            pkgconf
+            pkgconf-pkg-config
+            cmake
+            cmake3
+            ninja-build
+            ninja
+            git
+            tar
+            gzip
+            bzip2
+            bzip2-devel
+            xz
+            unzip
+            wget
+            curl
+            which
+            diffutils
+            gawk
+            sed
+            file
+            findutils
+            binutils
+            glibc-devel
+            glibc-headers
+            kernel-headers
+            kernel-devel
+            python3
+            python3-devel
+            perl
+            perl-IPC-Cmd
+            perl-Data-Dumper
+        )
+
+        install_list=()
+        for pkg in "${common_build_pkgs[@]}"; do
+            if dnf list available "$pkg" >/dev/null 2>&1; then
+                install_list+=("$pkg")
+            fi
+        done
+
+        if [[ ${#install_list[@]} -gt 0 ]]; then
+            echo ">>> The following build tools will be installed: ${install_list[*]}"
+            dnf install -y "${install_list[@]}"
+        else
+            echo ">>> Error: No installable build tools were identified"
+            exit 1
+        fi
+    else
+        echo ">>> Error: The environment is not recognized as SUSE and no dnf is available in PATH"
+    fi
+fi

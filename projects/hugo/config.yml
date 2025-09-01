@@ -10,25 +10,11 @@ source:
     url: https://github.com/gohugoio/hugo/archive/refs/tags/v0.148.2.tar.gz
     sha256sum: 562024495bb23ee54d11bbb63d15156213d40b24c5f5276bc8851dc6135b8602
 
-matrix:
-  - distro: opensuse
-    branch: tumbleweed
-    image: opensuse/tumbleweed:latest
+# matrix:
+#   - distro: opensuse
+#     branch: "15.6"
+#     image: opensuse/leap:15.6
 
-  - distro: fedora
-    branch: "43"
-    image: fedora:43
-
-hooks:
-  universal:
-    pre:
-      - uni_pre.sh
-    post:
-      - uni_post.sh
-  spcefic:
-    - distro: opensuse
-      branch: tumbeweed
-      pre:
-        - suse_pre.sh
-      post:
-        - suse_post.sh
+#   - distro: fedora
+#     branch: "43"
+#     image: fedora:43
