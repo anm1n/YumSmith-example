@@ -22,7 +22,7 @@ if [[ "$os_is_suse" == true ]]; then
         devel_basis \
         devel_C_C++ \
         devel_rpm_build
-    zypper --non-interactive install rpmdevtools
+    zypper --non-interactive install rpmdevtools git
 
     # see also: https://en.opensuse.org/SDB:DNF
     echo ">>> Setup dnf for $PRETTY_NAME"
