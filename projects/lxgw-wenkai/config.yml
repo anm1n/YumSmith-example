@@ -7,7 +7,7 @@ version:
 source:
   - name: font.tar.gz
     type: source
-    url: https://github.com/lxgw/LxgwWenKai/releases/download/v%{version}/lxgw-wenkai-v1.520.tar.gz
+    url: https://github.com/lxgw/LxgwWenKai/releases/download/v1.520/lxgw-wenkai-v1.520.tar.gz
     sha256sum: f069bccc54392186ae48f676ecc73964b71f28ef740b6e75231a90946fe396b1
 
 hooks:
