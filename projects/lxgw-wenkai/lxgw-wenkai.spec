@@ -28,8 +28,15 @@ BuildRequires: rpm_macro(_fontdir)
 %build
 
 %install
+%if 0%{?suse_version}
 install -d %{buildroot}%{_fontsdir}/%{name}/
 install -m 644 *.ttf %{buildroot}%{_fontsdir}/%{name}/
+%endif
+
+%if 0%{?fedora}
+install -d %{buildroot}%{_fontdir}/%{name}/
+install -m 644 *.ttf %{buildroot}%{_fontdir}/%{name}/
+%endif
 
 %files
 %if 0%{?suse_version}
