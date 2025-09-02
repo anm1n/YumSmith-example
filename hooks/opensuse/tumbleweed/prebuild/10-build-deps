@@ -47,7 +47,7 @@ if [[ ! -f "$SPEC_FILE" ]]; then
 fi
 
 # Query build deps
-BUILD_DEPS=$(rpmspec -q --buildrequires "$SPEC_FILE" | sort -u | grep -v '^\s*$')
+BUILD_DEPS=$(rpmspec -q --buildrequires "$SPEC_FILE" | sort -u | grep -v '^\s*$' || true)
 
 if [[ -z "$BUILD_DEPS" ]]; then
     echo "✅ No build dependency is required"
