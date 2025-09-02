@@ -32,7 +32,14 @@ install -d %{buildroot}%{_fontsdir}/%{name}/
 install -m 644 *.ttf %{buildroot}%{_fontsdir}/%{name}/
 
 %files
+%if 0%{?suse_version}
 %{_fontsdir}/%{name}/
+%endif
+
+%if 0%{?fedora}
+%{_fontdir}/%{name}/
+%endif
+
 %license OFL.txt
 
 %if 0%{?suse_version}

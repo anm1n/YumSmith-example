@@ -41,6 +41,7 @@ else
         common_build_pkgs=(
             rpm-build
             rpmdevtools
+            rpm-sign
             make
             gmake
             gcc
