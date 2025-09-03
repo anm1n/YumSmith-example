@@ -3,6 +3,10 @@ on:
   push:
     branches: [ main ]
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false # The new instance will wait for the old instance to complete
+
 jobs:
   job1:
     uses: anm1n/yum2/.github/workflows/rpmbuild.yml@main

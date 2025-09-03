@@ -2,6 +2,10 @@ name: Update metadata of yum reop
 on:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true # The new instance will terminate the old instance
+
 jobs:
   job1:
     uses: anm1n/yum2/.github/workflows/update-metadata.yml@main
