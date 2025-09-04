@@ -1,0 +1,17 @@
+name: auto check update
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  job1:
+    uses: anm1n/yum2/.github/workflows/check.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
+    with:
+      hooks-dir: hooks
+      pkg-path: projects

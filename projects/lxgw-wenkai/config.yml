@@ -1,16 +1,15 @@
 package: lxgw-wenkai
-url: https://lxgw.github.io
-version:
-  strategy: tag # tag | release | manual | custom
-  current: "1.520"
 
 source:
   - name: font.tar.gz
-    type: source
+    regex: 'lxgw-wenkai-v.+\.tar\.gz'
     url: https://github.com/lxgw/LxgwWenKai/releases/download/v1.520/lxgw-wenkai-v1.520.tar.gz
     sha256sum: f069bccc54392186ae48f676ecc73964b71f28ef740b6e75231a90946fe396b1
 
 hooks:
+  universal:
+    check: github-release
+
   specific:
     - distro: opensuse
       branch: tumbleweed
