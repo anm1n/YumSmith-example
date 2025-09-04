@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage: $0 -p <project directory>"
+  exit 1
+}
+
+# Parse arguments
+while getopts ":p:" opt; do
+  case $opt in
+  p) project_dir="$OPTARG" ;;
+  *) usage ;;
+  esac
+done
+
+if [[ -z "${project_dir:-}" ]]; then
+  usage
+fi
+
+# Check configuration file
+config_file=""
+if [[ -f "$project_dir/config.yaml" ]]; then
+  config_file="$project_dir/config.yaml"
+elif [[ -f "$project_dir/config.yml" ]]; then
+  config_file="$project_dir/config.yml"
+else
+  echo "Error: config.yaml or config.yml not found in $project_dir" >&2
+  exit 1
+fi
+
+# Iterate over the source list
+count=$(yq '.source | length' "$config_file")
+tmp_config=$(mktemp)
+cp "$config_file" "$tmp_config"
+
+for ((i = 0; i < count; i++)); do
+  url=$(yq -r ".source[$i].url" "$tmp_config")
+
+  # Check if it is a GitHub URL
+  if [[ "$url" =~ ^https://github\.com/([^/]+)/([^/]+) ]]; then
+    owner="${BASH_REMATCH[1]}"
+    repo="${BASH_REMATCH[2]}"
+
+    # Get the latest tag information
+    tag_json=$(gh api "repos/${owner}/${repo}/tags" --paginate | jq -s 'add | sort_by(.commit.committer.date) | reverse | .[0]')
+    raw_tag=$(echo "$tag_json" | jq -r '.name')
+    version="${raw_tag#v}"
+
+    # Always use the automatically packaged source tarball for the tag
+    asset_url="https://github.com/${owner}/${repo}/archive/refs/tags/${raw_tag}.tar.gz"
+
+    # Download and calculate sha256
+    tmpfile=$(mktemp)
+    curl -sL "$asset_url" -o "$tmpfile"
+    sha256=$(sha256sum "$tmpfile" | awk '{print $1}')
+    rm -f "$tmpfile"
+
+    # Update configuration file
+    yq -i ".source[$i].url = \"$asset_url\"" "$tmp_config"
+    yq -i ".source[$i].sha256sum = \"$sha256\"" "$tmp_config"
+  fi
+done
+
+# Overwrite the original configuration file
+mv "$tmp_config" "$config_file"
+
+echo "Configuration file updated: $config_file"
+
+project_name=$(basename "$project_dir")
+specfile=${project_dir}/${project_name}.spec
+
+if [ -e "$specfile" ]; then
+  # Replace only the pure version number after 'Version:', keeping any trailing macros
+  sed -i -E "s/^(Version:[[:space:]]*)[0-9][^[:space:]%}]*/\1${version}/" "$specfile" && echo "$specfile Version updated"
+
+  # Reset Release to 1 (also keeping any possible macros)
+  sed -i -E "s/^(Release:[[:space:]]*)[0-9][^[:space:]%}]*/\11/" "$specfile" && echo "$specfile Release updated"
+else
+  echo "Error: $specfile not found"
+fi
