@@ -14,4 +14,4 @@ jobs:
       pull-requests: write
     with:
       hooks-dir: hooks
-      pkg-path: projects
+      root-dir: projects
