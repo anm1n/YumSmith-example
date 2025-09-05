@@ -1,9 +1,13 @@
 # 这个文件定义一共有哪些发行版可用
 
 - distro: opensuse
-  branch: tumbleweed
-  image: opensuse/tumbleweed:latest
+  branch: "15.6"
+  image: opensuse/leap:15.6
 
 - distro: fedora
   branch: "42"
   image: fedora:42
+
+- distro: openeuler
+  branch: "24.03"
+  image: openeuler/openeuler:24.03

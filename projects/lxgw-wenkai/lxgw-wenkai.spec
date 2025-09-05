@@ -1,6 +1,6 @@
 Name:           lxgw-wenkai
 Version:        1.520
-Release:        1
+Release:        1%{?dist}
 Summary:        一款开源中文字体，基于 FONTWORKS 出品字体 Klee One 衍生
 License:        OFL-1.1
 Vendor:         Test-Only
@@ -9,13 +9,18 @@ Source0:        font.tar.gz
 BuildArch:      noarch
 
 %if 0%{?suse_version}
-BuildRequires:  fontpackages-devel
-%reconfigure_fonts_prereq
+	BuildRequires:  fontpackages-devel
+	%reconfigure_fonts_prereq
+%else
+	%if 0%{?fedora}
+		BuildRequires: rpm_macro(_fontdir)
+	%endif
+
+	%if 0%{?openEuler}
+		BuildRequires: fonts-rpm-macros
+	%endif
 %endif
 
-%if 0%{?fedora}
-BuildRequires: rpm_macro(_fontdir)
-%endif
 
 %description
 2020 年 12 月，日本著名字体厂商 FONTWORKS 在 GitHub 上发布了 7 款日文字体，分别为 Train、Klee、Stick、Rock-n-Roll、Reggae、Rampart 和 DotGothic16，根据 SIL Open Font License 1.1 授权许可开源。7 款开源日文字体各有各的特点，而这 7 款字体中，字符数量最多的是 Klee。
@@ -28,28 +33,25 @@ BuildRequires: rpm_macro(_fontdir)
 %build
 
 %install
+
 %if 0%{?suse_version}
-install -d %{buildroot}%{_fontsdir}/%{name}/
-install -m 644 *.ttf %{buildroot}%{_fontsdir}/%{name}/
+	%global font_path %{buildroot}%{_fontsdir}/%{name}
+%else
+	%if 0%{?fedora} || 0%{?openEuler}
+		%global font_path %{buildroot}%{_fontdir}
+	%endif
 %endif
 
-%if 0%{?fedora}
-install -d %{buildroot}%{_fontdir}/%{name}/
-install -m 644 *.ttf %{buildroot}%{_fontdir}/%{name}/
-%endif
+install -d %{buildroot}%{font_path}
+install -m 644 *.ttf %{buildroot}%{font_path}
+
 
 %files
-%if 0%{?suse_version}
-%{_fontsdir}/%{name}/
-%endif
-
-%if 0%{?fedora}
-%{_fontdir}/%{name}/
-%endif
+%font_path
 
 %license OFL.txt
 
 %if 0%{?suse_version}
-# 安装或卸载此软件包后调用 fonts-config
-%reconfigure_fonts_scriptlets
+	# 安装或卸载此软件包后调用 fonts-config
+	%reconfigure_fonts_scriptlets
 %endif

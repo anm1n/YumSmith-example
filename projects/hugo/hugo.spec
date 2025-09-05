@@ -1,6 +1,6 @@
 Name:           hugo
 Version:        0.148.2
-Release:        1
+Release:        1%{?dist}
 Summary:        The world’s fastest framework for building websites.
 License:        Apache-2.0
 Vendor:         Test-Only
@@ -36,4 +36,5 @@ install -Dm 644 hugo.fish  %{buildroot}%{_datadir}/fish/vendor_completions.d/hug
 %{_datadir}/bash-completion/completions/hugo
 %{_datadir}/zsh/site-functions/_hugo
 %{_datadir}/fish/vendor_completions.d/hugo.fish
+
 %license LICENSE
