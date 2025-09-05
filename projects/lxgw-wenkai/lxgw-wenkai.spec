@@ -9,16 +9,16 @@ Source0:        font.tar.gz
 BuildArch:      noarch
 
 %if 0%{?suse_version}
-	BuildRequires:  fontpackages-devel
-	%reconfigure_fonts_prereq
-%else
-	%if 0%{?fedora}
-		BuildRequires: rpm_macro(_fontdir)
-	%endif
+BuildRequires:  fontpackages-devel
+%reconfigure_fonts_prereq
+%endif
 
-	%if 0%{?openEuler}
-		BuildRequires: fonts-rpm-macros
-	%endif
+%if 0%{?fedora}
+BuildRequires: rpm_macro(_fontdir)
+%endif
+
+%if 0%{?openEuler}
+BuildRequires: fonts-rpm-macros
 %endif
 
 

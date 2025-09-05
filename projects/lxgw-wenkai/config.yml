@@ -9,13 +9,13 @@ hooks:
   specific:
     - distro: opensuse
       branch: "15.6"
-      post_global_prebuild:
+      pre_global_prebuild:
         - suse-font-deps
     - distro: fedora
       branch: "42"
-      post_global_prebuild:
+      pre_global_prebuild:
         - dnf-font-deps
     - distro: openeuler
       branch: "24.03"
-      post_global_prebuild:
+      pre_global_prebuild:
         - dnf-font-deps
