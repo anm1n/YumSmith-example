@@ -21,7 +21,6 @@ jobs:
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
-      TOKEN: ${{ secrets.PAT }}
     permissions:
       actions: write # so we can dispatch sub workflow
       contents: read
