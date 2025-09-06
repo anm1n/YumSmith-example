@@ -1,6 +1,6 @@
 Name:           lxgw-wenkai
 Version:        1.520
-Release:        2
+Release:        1
 Summary:        一款开源中文字体，基于 FONTWORKS 出品字体 Klee One 衍生
 License:        OFL-1.1
 Vendor:         Test-Only

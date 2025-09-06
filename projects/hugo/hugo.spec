@@ -1,6 +1,6 @@
 Name:           hugo
-Version:        0.148.2
-Release:        2
+Version:        0.149.1
+Release:        1
 Summary:        The world’s fastest framework for building websites.
 License:        Apache-2.0
 Vendor:         Test-Only
