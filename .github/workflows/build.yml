@@ -9,9 +9,9 @@ concurrency:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/rpmbuild.yml@main
+    uses: anm1n/YumSmith/.github/workflows/rpmbuild.yml@main
     with:
-      pkg-path: projects
+      root-dir: projects
       rclone-repo-name: test
       metadata-workflow-name: metadata.yml
       matrix-file: matrix.yml
@@ -21,8 +21,6 @@ jobs:
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
-      GPG_SECRET_ID: ${{ secrets.GPG_SECRET_ID }}
-      TOKEN: ${{ secrets.PAT }}
     permissions:
       actions: write # so we can dispatch sub workflow
       contents: read

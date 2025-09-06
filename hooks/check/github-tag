@@ -42,35 +42,19 @@ for ((i = 0; i < count; i++)); do
     owner="${BASH_REMATCH[1]}"
     repo="${BASH_REMATCH[2]}"
 
-    # Get the latest release information
-    release_json=$(gh api "repos/${owner}/${repo}/releases/latest")
-
-    # Extract version number (remove leading v)
-    raw_tag=$(echo "$release_json" | jq -r '.tag_name')
+    # Get the latest tag information
+    tag_json=$(gh api "repos/${owner}/${repo}/tags" --paginate | jq -s 'add | sort_by(.commit.committer.date) | reverse | .[0]')
+    raw_tag=$(echo "$tag_json" | jq -r '.name')
     version="${raw_tag#v}"
 
-    regex=$(yq -r ".source[$i].regex" "$tmp_config")
-
-    if [[ "$regex" != "null" && -n "$regex" ]]; then
-      # Match release asset using regex
-      asset_url=$(echo "$release_json" | jq -r --arg re "$regex" '.assets[] | select(.name | test($re)) | .browser_download_url' | head -n1)
-    else
-      # Default to using the automatically packaged source tarball
-      asset_url="https://github.com/${owner}/${repo}/archive/refs/tags/${raw_tag}.tar.gz"
-    fi
-
-    if [[ -z "$asset_url" ]]; then
-      echo "Warning: No matching file found ($owner/$repo)" >&2
-      continue
-    fi
+    # Always use the automatically packaged source tarball for the tag
+    asset_url="https://github.com/${owner}/${repo}/archive/refs/tags/${raw_tag}.tar.gz"
 
     # Download and calculate sha256
     tmpfile=$(mktemp)
     curl -sL "$asset_url" -o "$tmpfile"
     sha256=$(sha256sum "$tmpfile" | awk '{print $1}')
     rm -f "$tmpfile"
-
-    echo -e "$project_dir\tsource[${i}]\t$version\t$asset_url\t$sha256" | column -t -s $'\t'
 
     # Update configuration file
     yq -i ".source[$i].url = \"$asset_url\"" "$tmp_config"

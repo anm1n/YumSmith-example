@@ -8,10 +8,10 @@ concurrency:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/check.yml@main
+    uses: anm1n/YumSmith/.github/workflows/check.yml@main
     permissions:
       contents: write
       pull-requests: write
     with:
       hooks-dir: hooks
-      pkg-path: projects
+      root-dir: projects

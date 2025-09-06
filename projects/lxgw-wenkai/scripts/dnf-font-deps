@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+set -e
+# it's same package on openEuler/fedora
+dnf install -y fonts-rpm-macros

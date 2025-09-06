@@ -8,12 +8,10 @@ concurrency:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/update-metadata.yml@main
+    uses: anm1n/YumSmith/.github/workflows/update-metadata.yml@main
     with:
       rclone-repo-name: test
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
-      GPG_SECRET_ID: ${{ secrets.GPG_SECRET_ID }}
-      TOKEN: ${{ secrets.PAT }}
 

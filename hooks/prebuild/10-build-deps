@@ -61,7 +61,7 @@ echo
 
 if command -v dnf >/dev/null 2>&1; then
     echo "⚙️ Using dnf..."
-    dnf install -y $BUILD_DEPS
+    dnf builddep -y "$SPEC_FILE"
 elif command -v zypper >/dev/null 2>&1; then
     echo "⚙️ Using zypper..."
     zypper --non-interactive install $BUILD_DEPS
