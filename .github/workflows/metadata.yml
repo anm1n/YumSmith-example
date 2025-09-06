@@ -8,7 +8,7 @@ concurrency:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/update-metadata.yml@main
+    uses: anm1n/YumSmith/.github/workflows/update-metadata.yml@main
     with:
       rclone-repo-name: test
     secrets:

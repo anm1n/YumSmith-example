@@ -13,6 +13,7 @@ BuildRequires:  make
 # The main compiler on leap 15.6 is version 7
 %if 0%{?suse_version} < 1550 && 0%{?suse_version} != 0
 BuildRequires:  gcc13-c++
+%define cxxopt CXX="g++-13" CC=gcc-13
 
 %else
 BuildRequires:  gcc-c++ >= 11
@@ -26,10 +27,10 @@ C++ version and continuation of bashtop and bpytop.
 %setup -q
 
 %build
-%make_build GPU_SUPPORT=false
+%make_build GPU_SUPPORT=false %{?cxxopt}
 
 %install
-%make_install PREFIX=%{_prefix}
+%make_install PREFIX=%{_prefix} %{?cxxopt}
 
 %files
 %{_bindir}/btop

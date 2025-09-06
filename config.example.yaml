@@ -14,28 +14,27 @@ matrix:
 
 hooks:
   disable_global:
-    - prebuild   # 禁用全局 prebuild 阶段的 hook
-    - cache      # 禁用全局 cache 阶段的 hook（未来可能用到）
+    - prebuild
 
   universal:
     check: github-release
     pre_global_prebuild:
-      - scripts/uni_before_global_prebuild.sh
+      - uni_before_global_prebuild.sh
     post_global_prebuild:
-      - scripts/uni_after_global_prebuild.sh
+      - uni_after_global_prebuild.sh
     pre_global_postbuild:
-      - scripts/uni_before_global_postbuild.sh
+      - uni_before_global_postbuild.sh
     post_global_postbuild:
-      - scripts/uni_after_global_postbuild.sh
+      - uni_after_global_postbuild.sh
 
   specific:
     - distro: opensuse
       branch: tumbleweed
       pre_global_prebuild:
-        - scripts/suse_before_global_prebuild.sh
+        - suse_before_global_prebuild.sh
       post_global_prebuild:
-        - scripts/suse_after_global_prebuild.sh
+        - suse_after_global_prebuild.sh
       pre_global_postbuild:
-        - scripts/suse_before_global_postbuild.sh
+        - suse_before_global_postbuild.sh
       post_global_postbuild:
-        - scripts/suse_after_global_postbuild.sh
+        - suse_after_global_postbuild.sh

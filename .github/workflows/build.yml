@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   job1:
-    uses: anm1n/yum2/.github/workflows/rpmbuild.yml@main
+    uses: anm1n/YumSmith/.github/workflows/rpmbuild.yml@main
     with:
       root-dir: projects
       rclone-repo-name: test
