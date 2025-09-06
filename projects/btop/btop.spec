@@ -6,10 +6,17 @@ License:        Apache-2.0
 Vendor:         Test-Only
 URL:            https://github.com/aristocratos/btop
 Source0:        source.tar.gz
-BuildRequires:  gcc-c++ >= 11
 BuildRequires:  sed
 BuildRequires:  coreutils
 BuildRequires:  make
+
+# The main compiler on leap 15.6 is version 7
+%if 0%{?suse_version} < 1550 && 0%{?suse_version} != 0
+BuildRequires:  gcc13-c++
+
+%else
+BuildRequires:  gcc-c++ >= 11
+%endif
 
 %description
 Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
