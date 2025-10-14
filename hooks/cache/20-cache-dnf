@@ -21,7 +21,6 @@ if command -v dnf >/dev/null 2>&1; then
         pkgconf
         pkgconf-pkg-config
         cmake
-        cmake3
         ninja-build
         ninja
         git

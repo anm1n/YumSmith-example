@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 set -euo pipefail
 
+zypper modifyrepo --keep-packages --all
 zypper --non-interactive refresh
 
 if [[ -f /etc/os-release ]]; then
