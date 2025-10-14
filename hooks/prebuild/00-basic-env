@@ -38,6 +38,7 @@ if [[ "$os_is_suse" == true ]]; then
 else
     if command -v dnf >/dev/null 2>&1; then
         echo ">>> The environment is not recognized as SUSE. Use dnf to setup the environment"
+        dnf makecache -y
 
         common_build_pkgs=(
             rpm-build

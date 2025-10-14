@@ -18,6 +18,7 @@ jobs:
       hostname: Build-Test
       build-srpm: true
       hooks-dir: hooks
+      cache-interval: 2-week
     secrets:
       RCLONE_CONFIG_SECTION: ${{ secrets.RCLONE_CONFIG_SECTION }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}

@@ -1,0 +1,73 @@
+#!/usr/bin/bash
+set -euo pipefail
+
+dnf makecache -y
+
+if command -v dnf >/dev/null 2>&1; then
+    common_build_pkgs=(
+        rpm-build
+        rpmdevtools
+        rpm-sign
+        dnf-plugins-core
+        make
+        gmake
+        gcc
+        gcc-c++
+        g++
+        automake
+        autoconf
+        libtool
+        patch
+        pkgconf
+        pkgconf-pkg-config
+        cmake
+        cmake3
+        ninja-build
+        ninja
+        git
+        tar
+        gzip
+        bzip2
+        bzip2-devel
+        xz
+        unzip
+        wget
+        curl
+        which
+        diffutils
+        gawk
+        sed
+        file
+        findutils
+        binutils
+        glibc-devel
+        glibc-headers
+        kernel-headers
+        kernel-devel
+        python3
+        python3-devel
+        perl
+        perl-IPC-Cmd
+        perl-Data-Dumper
+        cargo
+        rust
+        go
+    )
+
+    install_list=()
+    for pkg in "${common_build_pkgs[@]}"; do
+        if dnf list available "$pkg" >/dev/null 2>&1; then
+            install_list+=("$pkg")
+        fi
+    done
+
+    if [[ ${#install_list[@]} -gt 0 ]]; then
+        echo ">>> The following packages will be cached: ${install_list[*]}"
+        dnf install -y --downloadonly "${install_list[@]}"
+    else
+        echo ">>> Error: No installable packages were identified"
+        exit 1
+    fi
+else
+    echo ">>> Error: no dnf is available in PATH"
+fi
